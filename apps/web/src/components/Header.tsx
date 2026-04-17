@@ -20,7 +20,7 @@ export function Header() {
               {/* Mobile Logo View (Small Brackets + 'Talk') */}
               <div className="flex sm:hidden items-center gap-1.5">
                 <img
-                  src="/assets/GDG Brackets removed background.png"
+                  src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/assets/GDG Brackets removed background.png`}
                   alt="GDG Brackets"
                   className="h-12 w-auto object-contain"
                 />
@@ -29,7 +29,7 @@ export function Header() {
 
               {/* Desktop Logo View (Horizontal Logo) */}
               <img
-                src={resolvedTheme === 'dark' ? "/assets/GDG Horizontal Dark Logo.png" : "/assets/GDG Horizontal Light Logo.png"}
+                src={resolvedTheme === 'dark' ? `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/assets/GDG Horizontal Dark Logo.png` : `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/assets/GDG Horizontal Light Logo.png`}
                 alt="GDG Talk Hub"
                 className="hidden sm:block h-8 object-contain"
                 onError={(e) => {

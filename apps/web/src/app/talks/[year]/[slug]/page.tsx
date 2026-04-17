@@ -65,7 +65,7 @@ export default async function TalkDetailsPage({ params }: { params: Promise<{ ye
                  }}
                />
                <a 
-                 href={talk.pdfPath} 
+                 href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${talk.pdfPath}`} 
                  download
                  className="relative inline-flex w-full items-center justify-center rounded-full bg-background px-7 py-3 text-sm font-bold text-foreground group-active:scale-[0.98] transition-all"
                >
@@ -89,7 +89,7 @@ export default async function TalkDetailsPage({ params }: { params: Promise<{ ye
                <span className="text-sm font-medium text-muted">Präsentationsfolien</span>
             </div>
             <object 
-              data={`${talk.pdfPath}#toolbar=1&navpanes=0&scrollbar=1`}
+              data={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${talk.pdfPath}#toolbar=1&navpanes=0&scrollbar=1`}
               type="application/pdf"
               width="100%"
               height="100%"
@@ -97,7 +97,7 @@ export default async function TalkDetailsPage({ params }: { params: Promise<{ ye
             >
               <div className="flex flex-col items-center justify-center h-full p-8 text-center bg-[var(--color-gdg-grey-50)] dark:bg-[var(--color-gdg-grey-900)]">
                  <p className="mb-4">Dein Browser unterstützt keine Anzeige von PDFs direkt auf der Website.</p>
-                 <a href={talk.pdfPath} download className="text-[var(--color-gdg-blue)] underline font-medium">
+                 <a href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${talk.pdfPath}`} download className="text-[var(--color-gdg-blue)] underline font-medium">
                    Lade die PDF hier herunter
                  </a>
               </div>
