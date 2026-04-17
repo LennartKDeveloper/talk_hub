@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme {
+  --color-gdg-blue: #4285F4;
+  --color-gdg-red: #EA4335;
+  --color-gdg-yellow: #FBBC04;
+  --color-gdg-green: #34A853;
+  --color-gdg-grey-50: #F8F9FA;
+  --color-gdg-grey-100: #F1F3F4;
+  --color-gdg-grey-200: #E8EAED;
+  --color-gdg-grey-300: #DADCE0;
+  --color-gdg-grey-400: #BDC1C6;
+  --color-gdg-grey-500: #9AA0A6;
+  --color-gdg-grey-600: #80868B;
+  --color-gdg-grey-700: #5F6368;
+  --color-gdg-grey-800: #3C4043;
+  --color-gdg-grey-900: #202124;
+
+  --color-background-light: #ffffff;
+  --color-background-dark: #202124;
+  --color-card-light: #F8F9FA;
+  --color-card-dark: #3C4043;
+  --color-text-light: #202124;
+  --color-text-dark: #F8F9FA;
+  --color-text-muted-light: #5F6368;
+  --color-text-muted-dark: #9AA0A6;
+}
+
+@layer base {
+  :root {
+    --background: var(--color-background-light);
+    --foreground: var(--color-text-light);
+    --card: var(--color-card-light);
+    --muted: var(--color-text-muted-light);
+  }
+
+  .dark {
+    --background: var(--color-background-dark);
+    --foreground: var(--color-text-dark);
+    --card: var(--color-card-dark);
+    --muted: var(--color-text-muted-dark);
+  }
+
+  html, body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+}
