@@ -19,18 +19,18 @@ export function Header() {
             <>
               {/* Mobile Logo View (Small Brackets + 'Talk') */}
               <div className="flex sm:hidden items-center gap-1.5">
-                <img 
-                  src="/assets/GDG Brackets removed background.png" 
-                  alt="GDG Brackets" 
+                <img
+                  src="/assets/GDG Brackets removed background.png"
+                  alt="GDG Brackets"
                   className="h-12 w-auto object-contain"
                 />
-                <span className="text-2xl font-bold text-foreground tracking-tight leading-none self-center">Talk</span>
+                <span className="text-2xl font-bold text-foreground tracking-tight leading-none self-center">UDE</span>
               </div>
-              
+
               {/* Desktop Logo View (Horizontal Logo) */}
-              <img 
-                src={resolvedTheme === 'dark' ? "/assets/GDG Horizontal Dark Logo.png" : "/assets/GDG Horizontal Light Logo.png"} 
-                alt="GDG Talk Hub" 
+              <img
+                src={resolvedTheme === 'dark' ? "/assets/GDG Horizontal Dark Logo.png" : "/assets/GDG Horizontal Light Logo.png"}
+                alt="GDG Talk Hub"
                 className="hidden sm:block h-8 object-contain"
                 onError={(e) => {
                   // fallback if not symlinked
@@ -39,10 +39,10 @@ export function Header() {
               />
             </>
           ) : (
-             <div className="h-8 w-32 bg-card animate-pulse rounded" />
+            <div className="h-8 w-32 bg-card animate-pulse rounded" />
           )}
         </Link>
-        
+
         <button
           onClick={() => setTheme(resolvedTheme === "light" ? "dark" : "light")}
           className="inline-flex items-center justify-center rounded-md p-2 hover:bg-card focus:outline-none"

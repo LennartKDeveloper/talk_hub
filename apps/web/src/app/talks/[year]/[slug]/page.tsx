@@ -57,14 +57,22 @@ export default async function TalkDetailsPage({ params }: { params: Promise<{ ye
            </div>
            
            {talk.pdfPath && (
-             <a 
-               href={talk.pdfPath} 
-               download
-               className="inline-flex items-center shrink-0 justify-center rounded-lg bg-[var(--color-gdg-blue)] px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 transition-all dark:hover:bg-blue-500"
-             >
-               <Download className="w-4 h-4 mr-2" />
-               PDF Herunterladen
-             </a>
+             <div className="relative inline-flex shrink-0 overflow-hidden rounded-full p-[3px] shadow-sm group hover:shadow-md transition-shadow">
+               <span 
+                 className="absolute left-1/2 top-1/2 h-[300%] w-[300%] origin-center -translate-x-1/2 -translate-y-1/2 transition-transform duration-[1000ms] ease-in-out group-hover:rotate-[180deg]"
+                 style={{
+                   background: "conic-gradient(var(--color-gdg-blue) 0deg 90deg, var(--color-gdg-red) 90deg 180deg, var(--color-gdg-yellow) 180deg 270deg, var(--color-gdg-green) 270deg 360deg)"
+                 }}
+               />
+               <a 
+                 href={talk.pdfPath} 
+                 download
+                 className="relative inline-flex w-full items-center justify-center rounded-full bg-background px-7 py-3 text-sm font-bold text-foreground group-active:scale-[0.98] transition-all"
+               >
+                 <Download className="w-5 h-5 mr-3 text-[var(--color-gdg-blue)] group-hover:-translate-y-0.5 group-hover:scale-110 transition-transform duration-300" />
+                 PDF Herunterladen
+               </a>
+             </div>
            )}
          </div>
 

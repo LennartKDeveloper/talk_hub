@@ -12,10 +12,10 @@ export interface TalkMetadata {
 }
 
 export const GDG_COLORS = {
-  blue: '#4285F4',
-  red: '#EA4335',
-  yellow: '#FBBC04',
-  green: '#34A853',
+  blue: '#4285f4',
+  red: '#ea4335',
+  yellow: '#f9ab00',
+  green: '#34a853',
   grey: {
     50: '#F8F9FA',
     100: '#F1F3F4',

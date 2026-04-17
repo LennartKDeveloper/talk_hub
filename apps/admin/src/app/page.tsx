@@ -103,31 +103,31 @@ export default function AdminPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="text-sm font-semibold">Sprache</label>
-              <select name="language" className="w-full p-2.5 rounded-lg border border-[var(--color-gdg-grey-300)] outline-none bg-white focus:border-[var(--color-gdg-blue)]">
-                 <option value="DE">Deutsch (DE)</option>
-                 <option value="EN">Englisch (EN)</option>
-              </select>
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-semibold">Level</label>
-              <select name="level" className="w-full p-2.5 rounded-lg border border-[var(--color-gdg-grey-300)] outline-none bg-white focus:border-[var(--color-gdg-blue)]">
-                 <option value="Anfänger">Anfänger</option>
-                 <option value="Fortgeschritten">Fortgeschritten</option>
-                 <option value="Experte">Experte</option>
-              </select>
-            </div>
+          <div className="space-y-2">
+            <label className="text-sm font-semibold">Sprache</label>
+            <select name="language" className="w-full p-2.5 rounded-lg border border-[var(--color-gdg-grey-300)] outline-none bg-white focus:border-[var(--color-gdg-blue)]">
+              <option value="DE">Deutsch (DE)</option>
+              <option value="EN">Englisch (EN)</option>
+            </select>
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-semibold">Level</label>
+            <select name="level" className="w-full p-2.5 rounded-lg border border-[var(--color-gdg-grey-300)] outline-none bg-white focus:border-[var(--color-gdg-blue)]">
+              <option value="Anfänger">Anfänger</option>
+              <option value="Fortgeschritten">Fortgeschritten</option>
+              <option value="Experte">Experte</option>
+            </select>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
-             <label className="text-sm font-semibold">Datum *</label>
-             <input name="date" type="date" required className="w-full p-2.5 rounded-lg border border-[var(--color-gdg-grey-300)] outline-none transition-all focus:border-[var(--color-gdg-blue)]" />
+            <label className="text-sm font-semibold">Datum *</label>
+            <input name="date" type="date" required className="w-full p-2.5 rounded-lg border border-[var(--color-gdg-grey-300)] outline-none transition-all focus:border-[var(--color-gdg-blue)]" />
           </div>
           <div className="space-y-2">
-             <label className="text-sm font-semibold">Event Art</label>
-             <input name="event" required className="w-full p-2.5 rounded-lg border border-[var(--color-gdg-grey-300)] outline-none transition-all focus:border-[var(--color-gdg-blue)]" placeholder="z.B. GDG Official" />
+            <label className="text-sm font-semibold">Event Art</label>
+            <input name="event" required className="w-full p-2.5 rounded-lg border border-[var(--color-gdg-grey-300)] outline-none transition-all focus:border-[var(--color-gdg-blue)]" placeholder="z.B. GDG Official" />
           </div>
         </div>
 
@@ -143,11 +143,10 @@ export default function AdminPage() {
 
         <div className="space-y-2">
           <label className="text-sm font-semibold">Präsentationsfolien (PDF) *</label>
-          <div 
-            {...getRootProps()} 
-            className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors ${
-              isDragActive ? 'border-[var(--color-gdg-blue)] bg-blue-50' : 'border-[var(--color-gdg-grey-300)] hover:bg-[var(--color-gdg-grey-50)]'
-            }`}
+          <div
+            {...getRootProps()}
+            className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors ${isDragActive ? 'border-[var(--color-gdg-blue)] bg-blue-50' : 'border-[var(--color-gdg-grey-300)] hover:bg-[var(--color-gdg-grey-50)]'
+              }`}
           >
             <input {...getInputProps()} />
             <UploadCloud className="w-10 h-10 mx-auto text-muted mb-4" />
@@ -162,8 +161,8 @@ export default function AdminPage() {
           </div>
         </div>
 
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           disabled={isSubmitting}
           className="w-full py-3.5 bg-[var(--color-gdg-blue)] text-white font-bold rounded-xl hover:bg-blue-600 transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center space-x-2 mt-4"
         >

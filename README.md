@@ -42,11 +42,8 @@ Der Talk ist nun lokal auf Ihrem Rechner in das Projekt eingefügt worden.
 ### 3. Änderungen in das System hochladen
 Damit die Änderungen auch auf der echten Webseite sichtbar werden, müssen die neu erstellten Dateien hochgeladen werden. Dies geschieht wieder in VS Code über das Terminal.
 
-1. Beenden Sie das laufende Admin-Tool im Terminal (klicken Sie ins Terminal und drücken Sie die Tasten "Strg" und "C" gleichzeitig) oder öffnen Sie ein komplett neues Terminal in VS Code.
-2. Fassen Sie die vorgenommenen Änderungen zusammen, indem Sie folgenden Befehl ausführen:
-   git add .
-3. "Verpacken" Sie die Änderungen in einen sogenannten Commit mit einer kurzen Beschreibung. Tippen Sie hierfür folgenden Befehl ein (den Text in den Anführungszeichen können Sie anpassen):
-   git commit -m "Neuen Talk hochgeladen"
+1. Beenden Sie das laufende Admin-Tool 
+2. Verfassen sie einen neuen Commit mit den Änderungen 
 4. Übertragen Sie die Änderungen auf den Server:
    git push
 
