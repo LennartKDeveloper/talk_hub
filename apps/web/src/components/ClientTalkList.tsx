@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { type TalkWithSlug } from "@/lib/talks";
 
@@ -8,6 +8,7 @@ export function ClientTalkList({ talks, availableTags }: { talks: TalkWithSlug[]
   const [search, setSearch] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [showFiltersMobile, setShowFiltersMobile] = useState(false);
+  const [todayTimestamp, setTodayTimestamp] = useState<number | null>(null);
 
   const toggleTag = (tag: string) => {
     setSelectedTags(prev =>
@@ -25,14 +26,70 @@ export function ClientTalkList({ talks, availableTags }: { talks: TalkWithSlug[]
     });
   }, [talks, search, selectedTags]);
 
+  useEffect(() => {
+    const getTodayTimestamp = () => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return today.getTime();
+    };
+
+    const initialUpdateId = window.setTimeout(() => {
+      setTodayTimestamp(getTodayTimestamp());
+    }, 0);
+
+    const now = new Date();
+    const nextMidnight = new Date(now);
+    nextMidnight.setHours(24, 0, 0, 0);
+    let intervalId: number | undefined;
+
+    const timeoutId = window.setTimeout(() => {
+      setTodayTimestamp(getTodayTimestamp());
+      intervalId = window.setInterval(() => {
+        setTodayTimestamp(getTodayTimestamp());
+      }, 24 * 60 * 60 * 1000);
+    }, nextMidnight.getTime() - now.getTime());
+
+    return () => {
+      window.clearTimeout(initialUpdateId);
+      window.clearTimeout(timeoutId);
+      if (intervalId !== undefined) {
+        window.clearInterval(intervalId);
+      }
+    };
+  }, []);
+
+  const pendingTalks = useMemo(() => {
+    if (todayTimestamp === null) {
+      return [];
+    }
+
+    return filteredTalks.filter(talk => {
+      const talkDate = new Date(talk.date);
+      talkDate.setHours(0, 0, 0, 0);
+      return talkDate.getTime() > todayTimestamp;
+    });
+  }, [filteredTalks, todayTimestamp]);
+
+  const nonPendingTalks = useMemo(() => {
+    if (todayTimestamp === null) {
+      return filteredTalks;
+    }
+
+    return filteredTalks.filter(talk => {
+      const talkDate = new Date(talk.date);
+      talkDate.setHours(0, 0, 0, 0);
+      return talkDate.getTime() <= todayTimestamp;
+    });
+  }, [filteredTalks, todayTimestamp]);
+
   const groupedByYear = useMemo(() => {
     const groups: Record<number, TalkWithSlug[]> = {};
-    for (const talk of filteredTalks) {
+    for (const talk of nonPendingTalks) {
       if (!groups[talk.year]) groups[talk.year] = [];
       groups[talk.year].push(talk);
     }
     return groups;
-  }, [filteredTalks]);
+  }, [nonPendingTalks]);
 
   const years = Object.keys(groupedByYear).map(Number).sort((a, b) => b - a);
 
@@ -88,15 +145,61 @@ export function ClientTalkList({ talks, availableTags }: { talks: TalkWithSlug[]
 
       {/* Main Content */}
       <main className="flex-1 space-y-12">
-        {years.length === 0 ? (
+        {pendingTalks.length === 0 && years.length === 0 ? (
           <div className="text-center py-12 text-muted">Keine Ergebnisse für deine Suche gefunden.</div>
         ) : (
-          years.map(year => (
-            <section key={year}>
-              <h2 className="text-2xl font-bold mb-6 flex items-center gap-4">
-                {year}
-                <div className="h-px bg-[var(--color-gdg-grey-200)] dark:bg-[var(--color-gdg-grey-700)] flex-1" />
-              </h2>
+          <>
+            {pendingTalks.length > 0 && (
+              <section>
+                <h2 className="text-2xl font-bold mb-6 flex items-center gap-4">
+                  Anstehende Vorträge
+                  <div className="h-px bg-amber-300/80 dark:bg-amber-700/80 flex-1" />
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {pendingTalks.map(talk => (
+                    <Link
+                      key={talk.slug}
+                      href={`/talks/${talk.year}/${talk.slug}`}
+                      className="block group h-full"
+                    >
+                      <div className="h-full rounded-xl border border-amber-300 dark:border-amber-700 bg-amber-50/50 dark:bg-amber-950/20 overflow-hidden shadow-sm hover:shadow-md transition-shadow group-hover:border-amber-500 dark:group-hover:border-amber-500 flex flex-col">
+                        <div className="p-5 flex-1 flex flex-col">
+                          <div className="flex justify-between items-start mb-2 gap-2">
+                            <span className="text-xs font-semibold text-[var(--color-gdg-blue)] uppercase tracking-wider">{talk.category}</span>
+                            <div className="flex items-center gap-2">
+                              <span className="text-[10px] px-2 py-0.5 rounded-full font-semibold bg-amber-500 text-white uppercase tracking-wide">Pending</span>
+                              <span className="text-xs text-muted">{talk.language}</span>
+                            </div>
+                          </div>
+                          <h3 className="text-lg font-bold mb-1 leading-tight group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors">{talk.title}</h3>
+                          <p className="text-sm text-muted mb-4">{talk.speaker}</p>
+
+                          <div className="mt-auto">
+                            <div className="flex flex-wrap gap-1 mt-3">
+                              {talk.tags?.slice(0, 3).map(tag => (
+                                <span key={tag} className="text-[10px] px-2 py-0.5 rounded border border-amber-200 dark:border-amber-800 bg-background text-muted">
+                                  {tag}
+                                </span>
+                              ))}
+                              {talk.tags && talk.tags.length > 3 && (
+                                <span className="text-[10px] px-2 py-0.5 rounded border border-amber-200 dark:border-amber-800 bg-background text-muted">+{talk.tags.length - 3}</span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {years.map(year => (
+              <section key={year}>
+                <h2 className="text-2xl font-bold mb-6 flex items-center gap-4">
+                  {year}
+                  <div className="h-px bg-[var(--color-gdg-grey-200)] dark:bg-[var(--color-gdg-grey-700)] flex-1" />
+                </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {groupedByYear[year].map(talk => (
                   <Link
@@ -130,8 +233,9 @@ export function ClientTalkList({ talks, availableTags }: { talks: TalkWithSlug[]
                   </Link>
                 ))}
               </div>
-            </section>
-          ))
+              </section>
+            ))}
+          </>
         )}
       </main>
     </div>

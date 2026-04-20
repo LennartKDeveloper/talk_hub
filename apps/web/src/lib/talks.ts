@@ -2,7 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import { TalkMetadata } from '@gdg/ui-theme';
 
-export interface TalkWithSlug extends TalkMetadata {
+export interface TalkWithSlug extends Omit<TalkMetadata, "year"> {
+  year: number;
   slug: string;
   pdfPath: string;
 }
@@ -22,6 +23,7 @@ export function getTalks(): TalkWithSlug[] {
   });
 
   for (const year of years) {
+    const yearNumber = parseInt(year, 10);
     const yearDir = path.join(TALKS_DIR, year);
     const talkFolders = fs.readdirSync(yearDir).filter(file => {
       return fs.statSync(path.join(yearDir, file)).isDirectory();
@@ -42,6 +44,7 @@ export function getTalks(): TalkWithSlug[] {
           
           talks.push({
             ...meta,
+            year: yearNumber,
             slug: folder,
             pdfPath: pdfFile ? `/talks/${year}/${folder}/${pdfFile}` : '',
           });

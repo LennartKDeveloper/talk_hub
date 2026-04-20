@@ -31,7 +31,6 @@ export async function POST(req: Request) {
     const meta = {
       title,
       speaker,
-      year: parseInt(year, 10),
       category,
       tags,
       language,
