@@ -91,15 +91,9 @@ export default function AdminPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-2">
-            <label className="text-sm font-semibold">Jahr *</label>
-            <input name="year" type="number" required defaultValue={new Date().getFullYear()} className="w-full p-2.5 rounded-lg border border-[var(--color-gdg-grey-300)] outline-none transition-all focus:border-[var(--color-gdg-blue)]" />
-          </div>
-          <div className="space-y-2">
-            <label className="text-sm font-semibold">Kategorie *</label>
-            <input name="category" required className="w-full p-2.5 rounded-lg border border-[var(--color-gdg-grey-300)] outline-none transition-all focus:border-[var(--color-gdg-blue)]" placeholder="z.B. App Entwicklung" />
-          </div>
+        <div className="space-y-2">
+          <label className="text-sm font-semibold">Kategorie *</label>
+          <input name="category" required className="w-full p-2.5 rounded-lg border border-[var(--color-gdg-grey-300)] outline-none transition-all focus:border-[var(--color-gdg-blue)]" placeholder="z.B. App Entwicklung" />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

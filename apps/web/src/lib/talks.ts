@@ -42,6 +42,7 @@ export function getTalks(): TalkWithSlug[] {
           
           talks.push({
             ...meta,
+            year: parseInt(year, 10),
             slug: folder,
             pdfPath: pdfFile ? `/talks/${year}/${folder}/${pdfFile}` : '',
           });

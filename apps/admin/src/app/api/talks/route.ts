@@ -11,7 +11,6 @@ export async function POST(req: Request) {
     // Extract metadata
     const title = formData.get("title") as string;
     const speaker = formData.get("speaker") as string;
-    const year = formData.get("year") as string;
     const category = formData.get("category") as string;
     const tagsRaw = formData.get("tags") as string;
     const language = formData.get("language") as string;
@@ -22,7 +21,7 @@ export async function POST(req: Request) {
     
     const file = formData.get("file") as File;
 
-    if (!title || !year || !file) {
+    if (!title || !file) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
@@ -31,7 +30,6 @@ export async function POST(req: Request) {
     const meta = {
       title,
       speaker,
-      year: parseInt(year, 10),
       category,
       tags,
       language,
@@ -43,7 +41,9 @@ export async function POST(req: Request) {
 
     // Sanitize title for folder name
     const sanitizedTitle = title.toLowerCase().replace(/[^a-z0-9]/g, "_").replace(/_+/g, "_");
-    
+
+    const year = new Date(date).getFullYear().toString();
+
     const targetDir = path.join(TALKS_DIR, year, sanitizedTitle);
     
     // Create directory
