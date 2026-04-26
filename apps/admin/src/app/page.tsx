@@ -10,6 +10,9 @@ export default function AdminPage() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  const [date, setDate] = useState("");
+
+  const isFuture = date ? new Date(date) > new Date() : false;
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: { "application/pdf": [".pdf"] },
@@ -42,6 +45,7 @@ export default function AdminPage() {
       setSuccess(true);
       (e.target as HTMLFormElement).reset();
       setFile(null);
+      setDate("");
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -115,7 +119,7 @@ export default function AdminPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
             <label className="text-sm font-semibold">Datum *</label>
-            <input name="date" type="date" required className="w-full p-2.5 rounded-lg border border-[var(--color-gdg-grey-300)] outline-none transition-all focus:border-[var(--color-gdg-blue)]" />
+            <input name="date" type="date" required value={date} onChange={(e) => setDate(e.target.value)} className="w-full p-2.5 rounded-lg border border-[var(--color-gdg-grey-300)] outline-none transition-all focus:border-[var(--color-gdg-blue)]" />
           </div>
           <div className="space-y-2">
             <label className="text-sm font-semibold">Event Art</label>
@@ -126,6 +130,13 @@ export default function AdminPage() {
             </select>
           </div>
         </div>
+
+        {isFuture && (
+          <div className="space-y-2">
+            <label className="text-sm font-semibold">Registrierungs-Link</label>
+            <input name="eventLink" type="url" className="w-full p-2.5 rounded-lg border border-[var(--color-gdg-grey-300)] outline-none transition-all focus:border-[var(--color-gdg-blue)]" placeholder="https://..." />
+          </div>
+        )}
 
         <div className="space-y-2">
           <label className="text-sm font-semibold">Tags (kommagetrennt)</label>

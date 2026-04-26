@@ -8,6 +8,7 @@ export interface TalkMetadata {
   event: string;
   date: string;
   description: string;
+  eventLink?: string;
 }
 
 export const GDG_COLORS = {

@@ -19,6 +19,7 @@ export async function POST(req: Request) {
     const event = formData.get("event") as string;
     const date = formData.get("date") as string;
     const description = formData.get("description") as string;
+    const eventLink = formData.get("eventLink") as string;
     
     const file = formData.get("file") as File;
 
@@ -37,7 +38,8 @@ export async function POST(req: Request) {
       level,
       event,
       date,
-      description
+      description,
+      ...(eventLink && { eventLink })
     };
 
     // Sanitize title for folder name
