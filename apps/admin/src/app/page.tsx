@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-import { UploadCloud, CheckCircle, Loader2 } from "lucide-react";
+import { UploadCloud, CheckCircle, Loader2, FileText, Trash2 } from "lucide-react";
 import { useDropzone } from "react-dropzone";
 
 export default function AdminPage() {
@@ -11,6 +11,7 @@ export default function AdminPage() {
   const [error, setError] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [date, setDate] = useState("");
+  const [deletedPdf, setDeletedPdf] = useState(false);
 
   const [mode, setMode] = useState<'add' | 'edit'>('add');
   const [talks, setTalks] = useState<any[]>([]);
@@ -28,9 +29,11 @@ export default function AdminPage() {
   useEffect(() => {
     if (mode === 'edit' && selectedTalk) {
       setDate(selectedTalk.date || "");
+      setDeletedPdf(false);
     } else if (mode === 'add') {
       setDate("");
       setSelectedTalk(null);
+      setDeletedPdf(false);
     }
   }, [mode, selectedTalk]);
 
@@ -54,6 +57,9 @@ export default function AdminPage() {
     if (mode === 'edit' && selectedTalk) {
       formData.append("originalSlug", selectedTalk.slug);
       formData.append("originalYear", selectedTalk.year.toString());
+      if (deletedPdf) {
+        formData.append("deletePdf", "true");
+      }
     }
 
     try {
@@ -77,6 +83,7 @@ export default function AdminPage() {
       (e.target as HTMLFormElement).reset();
       setFile(null);
       setDate("");
+      setDeletedPdf(false);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -237,22 +244,39 @@ export default function AdminPage() {
 
         <div className="space-y-2">
           <label className="text-sm font-semibold">Präsentationsfolien (PDF)</label>
-          <div
-            {...getRootProps()}
-            className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors ${isDragActive ? 'border-[var(--color-gdg-blue)] bg-blue-50' : 'border-[var(--color-gdg-grey-300)] hover:bg-[var(--color-gdg-grey-50)]'
-              }`}
-          >
-            <input {...getInputProps()} />
-            <UploadCloud className="w-10 h-10 mx-auto text-muted mb-4" />
-            {file ? (
-              <p className="font-medium text-[var(--color-gdg-blue)]">{file.name} (ausgewählt)</p>
-            ) : (
-              <div>
-                <p className="text-sm font-medium mb-1">PDF hierher ziehen oder klicken zum Auswählen</p>
-                <p className="text-xs text-muted">Maximal 1 Datei (.pdf)</p>
+          {mode === 'edit' && selectedTalk?.pdfFile && !deletedPdf ? (
+            <div className="border border-[var(--color-gdg-grey-300)] rounded-xl p-4 flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <FileText className="w-8 h-8 text-[var(--color-gdg-blue)]" />
+                <span className="font-medium text-[var(--color-gdg-grey-800)]">{selectedTalk.pdfFile}</span>
               </div>
-            )}
-          </div>
+              <button 
+                type="button" 
+                onClick={() => setDeletedPdf(true)}
+                className="text-red-500 hover:bg-red-50 p-2 rounded-lg transition-colors"
+                title="PDF entfernen"
+              >
+                <Trash2 className="w-5 h-5" />
+              </button>
+            </div>
+          ) : (
+            <div
+              {...getRootProps()}
+              className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors ${isDragActive ? 'border-[var(--color-gdg-blue)] bg-blue-50' : 'border-[var(--color-gdg-grey-300)] hover:bg-[var(--color-gdg-grey-50)]'
+                }`}
+            >
+              <input {...getInputProps()} />
+              <UploadCloud className="w-10 h-10 mx-auto text-muted mb-4" />
+              {file ? (
+                <p className="font-medium text-[var(--color-gdg-blue)]">{file.name} (ausgewählt)</p>
+              ) : (
+                <div>
+                  <p className="text-sm font-medium mb-1">PDF hierher ziehen oder klicken zum Auswählen</p>
+                  <p className="text-xs text-muted">Maximal 1 Datei (.pdf)</p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         <button

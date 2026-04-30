@@ -23,11 +23,15 @@ export async function GET() {
         if (!folderStat.isDirectory()) continue;
         
         try {
+          const files = await fs.readdir(talkDir).catch(() => []);
+          const pdfFile = files.find(f => f.endsWith('.pdf')) || null;
+
           const metaContent = await fs.readFile(path.join(talkDir, "meta.json"), "utf8");
           const meta = JSON.parse(metaContent);
           talks.push({
             slug: folder,
             year,
+            pdfFile,
             ...meta
           });
         } catch (e) {
@@ -61,6 +65,7 @@ export async function POST(req: Request) {
     
     const originalSlug = formData.get("originalSlug") as string;
     const originalYear = formData.get("originalYear") as string;
+    const deletePdf = formData.get("deletePdf") === "true";
 
     const file = formData.get("file") as File;
 
@@ -112,6 +117,19 @@ export async function POST(req: Request) {
       JSON.stringify(meta, null, 2),
       "utf-8"
     );
+
+    // Delete existing PDF if requested or if we are uploading a new one
+    if (deletePdf || file) {
+      try {
+        const files = await fs.readdir(targetDir);
+        const pdf = files.find((f: string) => f.endsWith('.pdf'));
+        if (pdf) {
+          await fs.unlink(path.join(targetDir, pdf));
+        }
+      } catch (e) {
+        // Ignore errors
+      }
+    }
 
     // Save PDF
     if (file) {
