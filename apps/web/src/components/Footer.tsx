@@ -1,15 +1,17 @@
+import Link from "next/link";
+
 export function Footer() {
   return (
     <footer className="">
       <div className="container mx-auto flex flex-col gap-2 px-4 py-5 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
         <p></p>
         <nav className="flex items-center gap-4" aria-label="Rechtliche Links">
-          <a href="/impress" className="hover:text-foreground transition-colors">
+          <Link href="/impress" className="hover:text-foreground transition-colors">
             Impressum
-          </a>
-          <a href="/privacy" className="hover:text-foreground transition-colors">
+          </Link>
+          <Link href="/privacy" className="hover:text-foreground transition-colors">
             Datenschutz
-          </a>
+          </Link>
           <a
             href="https://fie-due.de/"
             target="_blank"
