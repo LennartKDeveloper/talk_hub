@@ -10,6 +10,11 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "GDG Talk Hub UDE",
   description: "Presentations and Talks from GDGoC, University of Duisburg-Essen",
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
   openGraph: {
     title: "GDG Talk Hub UDE",
     description: "Presentations and Talks from GDGoC, University of Duisburg-Essen",
