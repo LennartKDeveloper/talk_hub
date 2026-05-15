@@ -8,8 +8,37 @@ import { Footer } from "@/components/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "GDG Talk Hub",
-  description: "Presentations and Talks from GDG on Campus",
+  title: "GDG Talk Hub UDE",
+  description: "Presentations and Talks from GDGoC, University of Duisburg-Essen",
+  openGraph: {
+    title: "GDG Talk Hub UDE",
+    description: "Presentations and Talks from GDGoC, University of Duisburg-Essen",
+    url: "https://gdgoc-university-of-duisburg-essen.github.io/talk_hub/",
+    siteName: "GDG Talk Hub UDE",
+    images: [
+      {
+        url: "/og/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "GDG Talk Hub",
+      },
+    ],
+    locale: "de_DE",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "GDG Talk Hub UDE",
+    description: "Presentations and Talks from GDGoC, University of Duisburg-Essen",
+    images: [
+      {
+        url: "/og/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "GDG Talk Hub",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
